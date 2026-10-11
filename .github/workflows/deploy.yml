@@ -1,0 +1,67 @@
+name: Build static Streamkist
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: streamkist-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v7
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.2
+      - run: bun install --frozen-lockfile
+      - run: bun run typecheck
+      - run: bun run test
+      - run: bun run lint
+      - run: bun run format
+      - run: bun run build
+      - name: Install browser for UI checks
+        run: bunx playwright install --with-deps chromium
+      - run: bun run test:browser
+      - name: Check immutable assets across builds
+        run: |
+          previous_build=$(mktemp -d)
+          cp -a .output/public/. "$previous_build/"
+          bun run build
+          bun scripts/check-immutable-assets.ts "$previous_build" .output/public
+      - name: Test generated files over HTTP
+        run: |
+          PORT=4173 bun run preview > /tmp/streamkist-preview.log 2>&1 &
+          preview_pid=$!
+          trap 'kill "$preview_pid"' EXIT
+          bun scripts/check-static-http.ts http://127.0.0.1:4173
+      - name: Archive static website
+        run: tar -czf streamkist-static.tar.gz -C .output/public .
+      - uses: actions/upload-artifact@v7
+        with:
+          name: streamkist-static-${{ github.sha }}
+          path: streamkist-static.tar.gz
+      - name: Log in to registry
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Publish file-only image
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        run: |
+          image="ghcr.io/${{ github.repository }}/static"
+          docker build --target artifact -t "$image:latest" -t "$image:sha-${{ github.sha }}" .
+          docker push "$image:sha-${{ github.sha }}"
+          docker push "$image:latest"

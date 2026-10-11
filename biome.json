@@ -1,0 +1,25 @@
+{
+	"$schema": "https://biomejs.dev/schemas/2.2.6/schema.json",
+	"files": {
+		"includes": [
+			"**",
+			"!**/.nuxt",
+			"!**/.output",
+			"!**/.cache",
+			"!**/bun.lock",
+			"!**/test-results",
+			"!**/playwright-report"
+		]
+	},
+	"formatter": { "indentStyle": "tab", "lineWidth": 100 },
+	"javascript": { "formatter": { "quoteStyle": "single", "semicolons": "asNeeded" } },
+	"linter": { "enabled": true, "rules": { "recommended": true } },
+	"assist": { "actions": { "source": { "organizeImports": "on" } } },
+	"overrides": [
+		{ "includes": ["**/*.vue"], "linter": { "enabled": false }, "formatter": { "enabled": false } },
+		{
+			"includes": ["app/assets/css/main.css"],
+			"linter": { "rules": { "complexity": { "noImportantStyles": "off" } } }
+		}
+	]
+}

@@ -1,0 +1,7 @@
+smol = true
+telemetry = false
+[run]
+noOrphans = true
+[install]
+logLevel = "warn"
+minimumReleaseAge = 259200

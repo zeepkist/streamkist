@@ -1,0 +1,40 @@
+{
+	"name": "streamkist",
+	"private": true,
+	"type": "module",
+	"packageManager": "bun@1.4.2",
+	"engines": {
+		"bun": "1.4.2"
+	},
+	"scripts": {
+		"dev": "bun --bun run nuxt dev",
+		"generate": "bun --bun run nuxt generate",
+		"build": "bun run generate && bun scripts/verify-static.ts",
+		"preview": "bun scripts/serve-static.ts",
+		"typecheck": "bun --bun run nuxt typecheck",
+		"test": "bun test",
+		"lint": "biome lint .",
+		"format": "biome format . && prettier --check \"app/**/*.vue\" \"**/*.md\" \".github/**/*.yml\" \"public/**/*.svg\"",
+		"check:http": "bun scripts/check-static-http.ts",
+		"test:browser": "playwright test",
+		"render:social": "bun scripts/render-social.ts"
+	},
+	"dependencies": {
+		"@nuxt/ui": "4.11.3",
+		"@tabler/icons-vue": "3.49.0",
+		"nuxt": "4.5.2",
+		"vue": "3.5.43"
+	},
+	"overrides": {
+		"nitropack": "2.13.4"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.2.6",
+		"@playwright/test": "1.62.1",
+		"@types/bun": "1.4.2",
+		"@types/node": "^24.0.0",
+		"prettier": "3.6.2",
+		"typescript": "5.9.3",
+		"vue-tsc": "3.2.5"
+	}
+}
