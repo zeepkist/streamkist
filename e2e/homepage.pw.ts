@@ -74,15 +74,25 @@ test('automatic lifecycle, pause, resume, manual selection, and replay', async (
 	await expect(page.getByRole('heading', { name: 'Channel added' })).toBeVisible({
 		timeout: setupDuration + 2000,
 	})
-	await expect(page.locator('.stream-status')).toContainText('LIVE ON TWITCH', { timeout: 6000 })
+	await expect(page.locator('.stream-status')).toContainText('Streaming Zeepkist on Twitch', {
+		timeout: 6000,
+	})
 	await expect(page.getByRole('button', { name: 'Updated Stream' })).toHaveAttribute(
 		'aria-pressed',
 		'true',
 		{ timeout: 6000 },
 	)
 	await expect(page.locator('.card-stats')).toContainText('68')
-	await expect(page.locator('.stream-status')).toContainText('STREAM FINISHED', { timeout: 6000 })
+	await expect(page.locator('.stream-preview img')).toHaveAttribute('alt', '')
+	const thumbnail = await page.locator('.stream-preview').boundingBox()
+	expect(thumbnail?.width).toBe(80)
+	expect(thumbnail?.height).toBe(80)
+	await expect(page.locator('.card-disclaimer')).toHaveText('Streamkist')
+	await expect(page.locator('.stream-status')).toContainText('Streamed Zeepkist on Twitch', {
+		timeout: 6000,
+	})
 	await expect(page.locator('.mock-button')).toContainText('Visit channel')
+	await expect(page.locator('.stream-preview')).toHaveCount(0)
 	await expect(page.locator('.card-stats')).toContainText('Peak viewers 81')
 	await page.getByRole('button', { name: 'New Stream', exact: true }).click()
 	await expect(page.locator('.mock-button')).toContainText('Watch stream')
@@ -173,6 +183,28 @@ test('command typing shows categories, backspaces, and submits Zeepkist', async 
 	await expect(page.locator('.mock-autocomplete')).toHaveCount(0)
 })
 
+test('compact live cards and finished cards fit mobile and desktop', async ({ page }) => {
+	await page.emulateMedia({ reducedMotion: 'reduce' })
+	for (const width of [320, 390, 768, 1440]) {
+		await page.setViewportSize({ width, height: 900 })
+		await page.goto('/')
+		await page.locator('.discord-window').scrollIntoViewIfNeeded()
+		await expect(page.locator('.stream-status')).toHaveText('Streaming Zeepkist on Twitch')
+		await expect(page.locator('.stream-preview img')).toHaveAttribute('alt', '')
+		const thumbnail = await page.locator('.stream-preview').boundingBox()
+		expect(thumbnail?.width).toBe(80)
+		expect(thumbnail?.height).toBe(80)
+		expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+		await page.screenshot({ path: `.cache/live-card-${width}.png` })
+		await page.getByRole('button', { name: 'Stream Finished', exact: true }).click()
+		await expect(page.locator('.stream-status')).toHaveText('Streamed Zeepkist on Twitch')
+		await expect(page.locator('.stream-preview')).toHaveCount(0)
+		await expect(page.locator('.card-disclaimer')).toHaveText('Streamkist')
+		expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+		await page.screenshot({ path: `.cache/finished-card-${width}.png` })
+	}
+})
+
 test('reduced motion keeps manual controls and native scrolling', async ({ page }) => {
 	await page.emulateMedia({ reducedMotion: 'reduce' })
 	await page.goto('/')
@@ -184,7 +216,7 @@ test('reduced motion keeps manual controls and native scrolling', async ({ page 
 	)
 	await expect(page.getByRole('button', { name: 'Pause', exact: true })).toHaveCount(0)
 	await page.getByRole('button', { name: 'Stream Finished' }).click()
-	await expect(page.locator('.stream-status')).toContainText('STREAM FINISHED')
+	await expect(page.locator('.stream-status')).toContainText('Streamed Zeepkist on Twitch')
 	expect(await page.evaluate(() => getComputedStyle(document.documentElement).scrollBehavior)).toBe(
 		'auto',
 	)
@@ -206,12 +238,11 @@ test('mobile and desktop geometry has no horizontal overflow; keyboard links wor
 		expect(hero?.width).toBe(width)
 		if (width > 1440) {
 			const shell = await page.locator('.hero > .shell').boundingBox()
-			const glow = await page.locator('.hero-glow').boundingBox()
 			expect(shell).not.toBeNull()
-			expect(glow).not.toBeNull()
-			if (!shell || !glow) throw new Error('Hero shell and glow must have layout bounds')
-			expect(glow.x + glow.width).toBeGreaterThan(shell.x + shell.width)
-			await page.screenshot({ path: `.cache/glow-${width}.png` })
+			if (!shell) throw new Error('Hero shell must have layout bounds')
+			expect(shell.width).toBe(1440)
+			expect(shell.x).toBe((width - shell.width) / 2)
+			await page.screenshot({ path: `.cache/hero-${width}.png` })
 		}
 		await page.locator('.discord-window').scrollIntoViewIfNeeded()
 		expect(
@@ -239,7 +270,7 @@ test('homepage remains useful without JavaScript', async ({ browser }) => {
 	await page.goto('http://127.0.0.1:4173/')
 	await expect(page.getByRole('heading', { level: 1 })).toContainText('Your games.')
 	await expect(page.locator('.stream-card')).toBeVisible()
-	await expect(page.locator('.stream-card')).toContainText('LIVE ON TWITCH')
+	await expect(page.locator('.stream-card')).toContainText('Streaming Zeepkist on Twitch')
 	await expect(page.locator('#commands')).toContainText('/add-stream-channel')
 	await expect(page.locator('#pricing')).toContainText('£4')
 	await page.getByRole('link', { name: 'Pricing', exact: true }).first().click()

@@ -529,9 +529,14 @@ button:focus-visible {
 	letter-spacing: 0.07em;
 	color: #c3a0ff;
 }
-.stream-status > span:last-child {
-	color: #bbb5cb;
-	letter-spacing: 0;
+.stream-card-section {
+	display: flex;
+	align-items: start;
+	gap: 16px;
+}
+.stream-card-details {
+	flex: 1;
+	min-width: 0;
 }
 .stream-card h3 {
 	font-size: 20px;
@@ -557,12 +562,15 @@ button:focus-visible {
 }
 .card-stats {
 	display: flex;
+	flex-wrap: wrap;
 	gap: 15px;
 	margin-bottom: 13px;
 }
 .stream-preview {
 	position: relative;
-	aspect-ratio: 16 / 9;
+	width: 80px;
+	height: 80px;
+	flex-shrink: 0;
 	overflow: hidden;
 	border-radius: 4px;
 	background: #333345;
@@ -609,9 +617,6 @@ button:focus-visible {
 }
 .finished {
 	border-left-color: #77758b;
-}
-.finished .stream-preview img {
-	filter: saturate(0.4);
 }
 .finished .stream-status {
 	color: #beb8ce;
