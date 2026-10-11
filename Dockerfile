@@ -6,9 +6,9 @@ COPY . .
 RUN bun run build
 
 FROM scratch AS artifact
-LABEL org.opencontainers.image.source="https://github.com/wopian/streamkist"
+LABEL org.opencontainers.image.source="https://github.com/zeepkist/streamkist"
 COPY .output/public /site
 
 FROM scratch AS production
-LABEL org.opencontainers.image.source="https://github.com/wopian/streamkist"
+LABEL org.opencontainers.image.source="https://github.com/zeepkist/streamkist"
 COPY --from=build /app/.output/public /site

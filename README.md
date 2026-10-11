@@ -49,8 +49,8 @@ bun run check:http http://127.0.0.1:5000
 CI validates pull requests, `main`, and manual runs. Successful builds upload `streamkist-static.tar.gz`; only `main` publishes:
 
 ```text
-ghcr.io/wopian/streamkist/static:latest
-ghcr.io/wopian/streamkist/static:sha-<commit>
+ghcr.io/zeepkist/streamkist/static:latest
+ghcr.io/zeepkist/streamkist/static:sha-<commit>
 ```
 
 Container images hold static files at `/site`. Docker target `production` builds from source; `artifact` packages an existing build. Extract files for hosting; images have no application runtime.
