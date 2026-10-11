@@ -25,7 +25,10 @@ import { inviteUrl, planFeatures, plans } from '~~/shared/content'
 				<p class="plan-price">£{{ plan.price }}<span>/ month</span></p>
 				<p class="micro muted">Per Discord server</p>
 				<p class="plan-games">
-					Watch <strong>{{ plan.games }} Twitch {{ plan.games === 1 ? 'category' : 'categories' }}</strong>
+					Watch
+					<strong
+						>{{ plan.games }} Twitch {{ plan.games === 1 ? 'category' : 'categories' }}</strong
+					>
 				</p>
 				<a v-if="plan.available" :href="inviteUrl" class="button button-outline button-discord"
 					><IconBrandDiscord :size="20" aria-hidden="true" />Add to Discord</a

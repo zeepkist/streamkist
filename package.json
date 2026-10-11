@@ -14,7 +14,7 @@
 		"typecheck": "bun --bun run nuxt typecheck",
 		"test": "bun test",
 		"lint": "biome lint .",
-		"format": "biome format . && prettier --check \"app/**/*.vue\" \"**/*.md\" \".github/**/*.yml\" \"public/**/*.svg\"",
+		"format": "biome format . --fix && prettier --write \"app/**/*.vue\" \"**/*.md\" \".github/**/*.yml\" \"public/**/*.svg\"",
 		"check:http": "bun scripts/check-static-http.ts",
 		"test:browser": "playwright test",
 		"render:social": "bun scripts/render-social.ts"
