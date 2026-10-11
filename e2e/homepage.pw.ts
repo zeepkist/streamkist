@@ -16,6 +16,10 @@ test('homepage hydrates, loads DINish, and keeps purchases disabled', async ({ p
 		await expect(button).toBeDisabled()
 	for (const link of await page.getByRole('link', { name: /Add.*Discord/ }).all())
 		await expect(link).toHaveAttribute('href', inviteUrl)
+	await expect(page.getByText('15 concurrent streams per server', { exact: true })).toHaveCount(1)
+	await expect(page.getByText('30 concurrent streams per server', { exact: true })).toHaveCount(2)
+	await expect(page.getByText('minimum-viewers', { exact: true })).toBeVisible()
+	await expect(page.getByText('allow-category-switches', { exact: true })).toBeVisible()
 	await page.evaluate(() => document.fonts.ready)
 	expect(await page.evaluate(() => document.fonts.check('16px DINish'))).toBe(true)
 	const contrast = await page.locator('.site-header .button').evaluate((element) => {
@@ -88,6 +92,15 @@ test('automatic lifecycle, pause, resume, manual selection, and replay', async (
 	expect(thumbnail?.width).toBe(80)
 	expect(thumbnail?.height).toBe(80)
 	await expect(page.locator('.card-disclaimer')).toHaveCount(0)
+	await expect(page.locator('.stream-status')).toContainText(
+		'Stopped streaming Zeepkist on Twitch',
+		{ timeout: 6000 },
+	)
+	await expect(page.locator('.stream-preview')).toHaveCount(0)
+	await expect(page.locator('.stream-status')).toHaveText('Streaming Zeepkist on Twitch', {
+		timeout: 6000,
+	})
+	await expect(page.locator('.stream-preview')).toHaveCount(1)
 	await expect(page.locator('.stream-status')).toContainText('Streamed Zeepkist on Twitch', {
 		timeout: 6000,
 	})
@@ -196,6 +209,14 @@ test('compact live cards and finished cards fit mobile and desktop', async ({ pa
 		expect(thumbnail?.height).toBe(80)
 		expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
 		await page.screenshot({ path: `.cache/live-card-${width}.png` })
+		const title = await page.locator('.stream-card h3').textContent()
+		await page.getByRole('button', { name: 'Category changed', exact: true }).click()
+		await expect(page.locator('.stream-status')).toHaveText('Stopped streaming Zeepkist on Twitch')
+		await expect(page.locator('.stream-preview')).toHaveCount(0)
+		await page.getByRole('button', { name: 'Back in category', exact: true }).click()
+		await expect(page.locator('.stream-status')).toHaveText('Streaming Zeepkist on Twitch')
+		await expect(page.locator('.stream-card h3')).toHaveText(title ?? '')
+		await expect(page.locator('.stream-preview')).toHaveCount(1)
 		await page.getByRole('button', { name: 'Stream Finished', exact: true }).click()
 		await expect(page.locator('.stream-status')).toHaveText('Streamed Zeepkist on Twitch')
 		await expect(page.locator('.stream-preview')).toHaveCount(0)

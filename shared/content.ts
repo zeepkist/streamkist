@@ -61,18 +61,21 @@ export const plans = [
 		name: 'Free',
 		price: 0,
 		games: 1,
+		concurrentStreams: 15,
 		available: true,
 	},
 	{
 		name: 'Extra',
 		price: 2,
 		games: 3,
+		concurrentStreams: 30,
 		available: false,
 	},
 	{
 		name: 'Plus',
 		price: 4,
 		games: 5,
+		concurrentStreams: 30,
 		available: false,
 	},
 ] as const
@@ -82,6 +85,8 @@ export const demoStages = [
 	'Configured',
 	'New Stream',
 	'Updated Stream',
+	'Category changed',
+	'Back in category',
 	'Stream Finished',
 ] as const
 export const demoMembers = [

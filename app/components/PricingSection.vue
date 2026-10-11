@@ -30,6 +30,7 @@ import { inviteUrl, planFeatures, plans } from '~~/shared/content'
 						>{{ plan.games }} Twitch {{ plan.games === 1 ? 'category' : 'categories' }}</strong
 					>
 				</p>
+				<p class="micro muted">{{ plan.concurrentStreams }} concurrent streams per server</p>
 				<a v-if="plan.available" :href="inviteUrl" class="button button-outline button-discord"
 					><IconBrandDiscord :size="20" aria-hidden="true" />Add to Discord</a
 				><button v-else type="button" disabled class="button button-disabled">Coming Soon</button>
@@ -42,7 +43,8 @@ import { inviteUrl, planFeatures, plans } from '~~/shared/content'
 		</div>
 		<p class="pricing-note micro muted">
 			Each watch pairs a Twitch game category with a Discord channel. Extra and Plus are planned.
-			Purchases are not available yet.
+			Highest-viewership streams take priority when your server reaches its limit. Purchases are not
+			available yet.
 		</p>
 	</section>
 </template>

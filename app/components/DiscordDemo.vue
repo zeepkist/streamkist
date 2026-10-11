@@ -11,6 +11,7 @@ import {
 } from '@tabler/icons-vue'
 import { demoMembers, demoStages, demoStream, demoTitles, demoUsernames } from '~~/shared/content'
 import { commandSubmitAt } from '~~/shared/command-typing'
+import { finalStage } from '~~/shared/playback'
 
 const viewport = shallowRef<HTMLElement | null>(null)
 const { stage, paused, reducedMotion, ready, playing, replay, select, setupElapsed } =
@@ -103,6 +104,7 @@ onMounted(() => {
 										Now tracking <strong>Zeepkist</strong> Twitch streams in
 										<strong>#streams</strong>
 									</p>
+									<p class="micro muted">Minimum viewers: 0 · Allow category switches: false</p>
 									<span class="micro muted">Only you can see this</span>
 								</div>
 								<StreamCard
@@ -137,7 +139,7 @@ onMounted(() => {
 				</button>
 			</div>
 			<div class="playback-controls">
-				<button v-if="!reducedMotion && stage < 4" type="button" @click="paused = !paused">
+				<button v-if="!reducedMotion && stage < finalStage" type="button" @click="paused = !paused">
 					<IconPlayerPlay v-if="paused" :size="16" aria-hidden="true" />
 					<IconPlayerPause v-else :size="16" aria-hidden="true" />
 					{{ paused ? 'Resume' : 'Pause' }}</button

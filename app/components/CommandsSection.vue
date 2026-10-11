@@ -22,6 +22,12 @@ import { commands } from '~~/shared/content'
 			</article>
 		</div>
 		<p class="permissions-note muted" data-reveal>
+			Optional <code>minimum-viewers</code> defaults to 0 and applies before first announcement.
+			<code>allow-category-switches</code> defaults to false. Cards stop outside watched categories
+			and resume when the same stream returns. Repeat the command to update settings; omitted
+			options keep saved values.
+		</p>
+		<p class="permissions-note muted" data-reveal>
 			Give Streamkist View Channel, Send Messages, and Embed Links in your chosen channel.
 		</p>
 	</section>

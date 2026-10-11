@@ -6,8 +6,17 @@ export interface PlaybackState {
 	reducedMotion: boolean
 }
 export function canAdvance(state: PlaybackState): boolean {
-	return state.visible && !state.hidden && !state.paused && !state.reducedMotion && state.stage < 4
+	return (
+		state.visible &&
+		!state.hidden &&
+		!state.paused &&
+		!state.reducedMotion &&
+		state.stage < finalStage
+	)
 }
 export function nextStage(stage: number): number {
-	return Math.min(4, stage + 1)
+	return Math.min(finalStage, stage + 1)
 }
+import { demoStages } from './content'
+
+export const finalStage = demoStages.length - 1

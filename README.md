@@ -21,7 +21,8 @@ Edit homepage sections in `app/components/` and commands, pricing, and demo fixt
 bun run typecheck
 bun run test
 bun run lint
-bun run format
+bunx biome format .
+bunx prettier --check "app/**/*.vue"
 bun run build
 bunx playwright install chromium
 bun run test:browser

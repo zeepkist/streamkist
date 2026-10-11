@@ -17,13 +17,14 @@ describe('public content contracts', () => {
 			'Everyone',
 		])
 	})
-	test('only free is available; paid plans differ only by quota and price', () => {
+	test('preserves plan prices, category quotas, and concurrent stream limits', () => {
 		expect(plans.map((plan) => [plan.name, plan.price, plan.games, plan.available])).toEqual([
 			['Free', 0, 1, true],
 			['Extra', 2, 3, false],
 			['Plus', 4, 5, false],
 		])
 		expect(planFeatures).toHaveLength(6)
+		expect(plans.map((plan) => plan.concurrentStreams)).toEqual([15, 30, 30])
 		expect(new URL(inviteUrl).searchParams.get('client_id')).toBe('1324441059983495240')
 	})
 })
@@ -55,10 +56,11 @@ describe('demo progression', () => {
 		})
 	})
 	const active = { stage: 0, paused: false, visible: true, hidden: false, reducedMotion: false }
-	test('advances through five stages and stops at finished', () => {
+	test('advances through category stop, return, and terminal finish', () => {
 		expect(canAdvance(active)).toBe(true)
-		expect([0, 1, 2, 3, 4].map(nextStage)).toEqual([1, 2, 3, 4, 4])
-		expect(canAdvance({ ...active, stage: 4 })).toBe(false)
+		expect([0, 1, 2, 3, 4, 5, 6].map(nextStage)).toEqual([1, 2, 3, 4, 5, 6, 6])
+		expect(canAdvance({ ...active, stage: 4 })).toBe(true)
+		expect(canAdvance({ ...active, stage: 6 })).toBe(false)
 	})
 	test('pauses for user choice, offscreen, hidden tab, and reduced motion', () => {
 		for (const change of [
