@@ -40,10 +40,10 @@ bun run preview
 
 Build output: **`.output/public`**, including prerendered HTML, assets, `404.html`, and a SHA-256 release manifest. Serve the entire directory with a static web server. Unknown paths must return `404.html` with HTTP status 404.
 
-Preview runs at `http://127.0.0.1:3000`. Override with `PORT`. With preview running, check HTTP output in another terminal:
+Development runs at `http://localhost:5000`; preview uses `http://127.0.0.1:5000`. Override preview port with `PORT`. With preview running, check HTTP output in another terminal:
 
 ```sh
-bun run check:http http://127.0.0.1:3000
+bun run check:http http://127.0.0.1:5000
 ```
 
 CI validates pull requests, `main`, and manual runs. Successful builds upload `streamkist-static.tar.gz`; only `main` publishes:

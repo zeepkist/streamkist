@@ -4,6 +4,7 @@ export default defineNuxtConfig({
 	modules: ['@nuxt/ui'],
 	css: ['~/assets/css/main.css'],
 	devtools: { enabled: false },
+	devServer: { port: 5000 },
 	typescript: { strict: true, tsConfig: { compilerOptions: { noUncheckedIndexedAccess: true } } },
 	experimental: { entryImportMap: false },
 	nitro: {
@@ -37,7 +38,7 @@ export default defineNuxtConfig({
 			],
 			link: [
 				{ rel: 'canonical', href: 'https://streamkist.zeepki.st/' },
-				{ rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
+				{ rel: 'icon', type: 'image/avif', href: '/favicon.avif' },
 				{
 					rel: 'preload',
 					as: 'font',

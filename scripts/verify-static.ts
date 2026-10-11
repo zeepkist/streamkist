@@ -36,8 +36,8 @@ async function collect(directory: string) {
 }
 await collect(root)
 for (const asset of [
-	'favicon.svg',
-	'stream-preview.svg',
+	'favicon.avif',
+	'stream-preview.avif',
 	'social-preview.png',
 	'robots.txt',
 	'sitemap.xml',

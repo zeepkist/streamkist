@@ -39,19 +39,16 @@ onMounted(() => {
 			<div>
 				<h2 id="demo-title">Streamkist in <span class="purple">Discord</span></h2>
 			</div>
-			<p class="section-description muted">Fictional example data.</p>
 		</div>
-		<div class="discord-window" data-reveal>
+		<div class="discord-window" :class="{ 'demo-pending': !ready || !submitted }" data-reveal>
 			<aside class="discord-rail" aria-hidden="true">
-				<BrandMark /><span class="server-orb">Z</span><span class="rail-line" /><span
+				<BrandMark avatar /><span class="server-orb">Z</span><span class="rail-line" /><span
 					class="server-add"
 					><IconPlus :size="24"
 				/></span>
 			</aside>
 			<aside class="discord-sidebar" aria-label="Example server">
-				<div class="server-name">
-					The starting grid <IconChevronDown :size="18" aria-hidden="true" />
-				</div>
+				<div class="server-name">Your Server <IconChevronDown :size="18" aria-hidden="true" /></div>
 				<p class="channel-label">COMMUNITY</p>
 				<div class="channel muted"><IconHash :size="20" aria-hidden="true" /> general</div>
 				<div class="channel active">
@@ -95,7 +92,7 @@ onMounted(() => {
 							:key="stage < 2 ? 'confirmation' : 'card'"
 							class="message bot-message"
 						>
-							<BrandMark />
+							<BrandMark avatar />
 							<div class="bot-content">
 								<p class="message-author">
 									Streamkist <span class="bot-tag">APP</span><span>Today at 14:00</span>
@@ -136,8 +133,7 @@ onMounted(() => {
 					:class="{ selected: stage === index }"
 					@click="select(index)"
 				>
-					<span class="stage-number">0{{ index + 1 }}</span
-					>{{ label }}
+					{{ label }}
 				</button>
 			</div>
 			<div class="playback-controls">
@@ -150,14 +146,5 @@ onMounted(() => {
 				</button>
 			</div>
 		</div>
-		<p class="demo-note micro muted">
-			{{
-				reducedMotion
-					? 'Reduced motion enabled. Choose a stage to explore.'
-					: playing
-						? 'Demo plays automatically. Pause or select any stage.'
-						: 'Example data only. No connection to Discord or Twitch.'
-			}}
-		</p>
 	</section>
 </template>

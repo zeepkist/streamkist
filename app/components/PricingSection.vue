@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { IconArrowUpRight, IconCheck } from '@tabler/icons-vue'
+import { IconBrandDiscord, IconCheck } from '@tabler/icons-vue'
 import { inviteUrl, planFeatures, plans } from '~~/shared/content'
 </script>
 
@@ -9,9 +9,6 @@ import { inviteUrl, planFeatures, plans } from '~~/shared/content'
 			<div>
 				<h2 id="pricing-title">Pricing</h2>
 			</div>
-			<p class="section-description muted">
-				All features included. Plans differ only by number of games watched.
-			</p>
 		</div>
 		<div class="pricing-grid">
 			<article
@@ -28,10 +25,10 @@ import { inviteUrl, planFeatures, plans } from '~~/shared/content'
 				<p class="plan-price">£{{ plan.price }}<span>/ month</span></p>
 				<p class="micro muted">Per Discord server</p>
 				<p class="plan-games">
-					Watch <strong>{{ plan.games }} {{ plan.games === 1 ? 'game' : 'games' }}</strong>
+					Watch <strong>{{ plan.games }} Twitch {{ plan.games === 1 ? 'category' : 'categories' }}</strong>
 				</p>
-				<a v-if="plan.available" :href="inviteUrl" class="button button-outline"
-					>Add to Discord <IconArrowUpRight :size="20" aria-hidden="true" /></a
+				<a v-if="plan.available" :href="inviteUrl" class="button button-outline button-discord"
+					><IconBrandDiscord :size="20" aria-hidden="true" />Add to Discord</a
 				><button v-else type="button" disabled class="button button-disabled">Coming Soon</button>
 				<ul class="plan-features">
 					<li v-for="feature in planFeatures" :key="feature">

@@ -95,8 +95,15 @@ button:focus-visible {
 	font-weight: 750;
 	letter-spacing: -0.04em;
 }
-.wordmark svg {
-	width: 33px;
+.brand-mark {
+	object-fit: contain;
+	flex-shrink: 0;
+}
+.brand-avatar {
+	border-radius: 10px;
+}
+.wordmark .brand-mark {
+	width: 66px;
 	height: 33px;
 }
 .button {
@@ -129,6 +136,10 @@ button:focus-visible {
 	padding: 11px 17px;
 	font-size: 13px;
 	gap: 20px;
+}
+.button-discord {
+	justify-content: center;
+	gap: 12px;
 }
 .button-outline {
 	background: transparent;
@@ -196,22 +207,6 @@ button:focus-visible {
 	padding-top: 66px;
 	overflow: clip;
 }
-.hero-glow {
-	position: absolute;
-	z-index: -1;
-	top: 0;
-	right: calc(max(0px, (100% - 1440px) / 2) - 260px);
-	width: 1000px;
-	height: 100%;
-	background: radial-gradient(
-		ellipse 50% 50% at 50% 50%,
-		#9254ff25,
-		#9254ff0a 65%,
-		transparent 100%
-	);
-	animation: glow-drift 12s ease-in-out infinite alternate;
-	pointer-events: none;
-}
 .signal-dot {
 	display: inline-block;
 	width: 6px;
@@ -240,6 +235,12 @@ button:focus-visible {
 	font-size: 21px;
 	line-height: 1.45;
 	letter-spacing: -0.02em;
+}
+.hero-plan {
+	margin-top: 14px;
+	color: var(--muted);
+	font-size: 15px;
+	line-height: 1.5;
 }
 .hero-actions {
 	display: flex;
@@ -294,7 +295,7 @@ button:focus-visible {
 	padding-top: 18px;
 	gap: 15px;
 }
-.discord-rail > svg {
+.discord-rail > .brand-mark {
 	width: 42px;
 	height: 42px;
 }
@@ -472,7 +473,7 @@ button:focus-visible {
 	margin-bottom: 22px;
 	font-size: 13px;
 }
-.message > svg {
+.message > .brand-mark {
 	width: 36px;
 	height: 36px;
 	flex-shrink: 0;
@@ -935,7 +936,7 @@ button:focus-visible {
 	font-size: 12px;
 	padding: 13px 17px;
 	justify-content: center;
-	gap: 35px;
+	gap: 12px;
 	min-height: 48px;
 }
 .plan-features {
@@ -981,8 +982,8 @@ button:focus-visible {
 .site-footer .wordmark {
 	font-size: 20px;
 }
-.site-footer .wordmark svg {
-	width: 27px;
+.site-footer .wordmark .brand-mark {
+	width: 54px;
 	height: 27px;
 }
 .site-footer > .micro:not(.footer-disclaimer) {
@@ -1082,8 +1083,8 @@ button:focus-visible {
 		font-size: 20px;
 		gap: 8px;
 	}
-	.wordmark svg {
-		width: 28px;
+	.wordmark .brand-mark {
+		width: 56px;
 		height: 28px;
 	}
 	.button-small {
@@ -1146,7 +1147,7 @@ button:focus-visible {
 	.message {
 		gap: 8px;
 	}
-	.message > svg,
+	.message > .brand-mark,
 	.message > .member-avatar {
 		width: 29px;
 		height: 29px;
@@ -1278,5 +1279,11 @@ button:focus-visible {
 	.reveal-pending {
 		opacity: 1;
 		transform: none;
+	}
+}
+/* Hide the static fallback before hydration, including outgoing transition nodes. */
+@media (scripting: enabled) {
+	:where(.demo-pending) .message {
+		display: none;
 	}
 }

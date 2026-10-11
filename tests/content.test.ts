@@ -23,7 +23,7 @@ describe('public content contracts', () => {
 			['Extra', 2, 3, false],
 			['Plus', 4, 5, false],
 		])
-		expect(planFeatures).toHaveLength(7)
+		expect(planFeatures).toHaveLength(6)
 		expect(new URL(inviteUrl).searchParams.get('client_id')).toBe('1324441059983495240')
 	})
 })

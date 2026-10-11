@@ -32,18 +32,17 @@ const peak = computed(() => (props.stage >= 3 ? demoStream.peak : demoStream.ini
 		</div>
 		<div class="stream-preview">
 			<img
-				src="/stream-preview.svg"
-				alt="Illustrated Zeepkist race course, fictional stream preview"
+				src="/stream-preview.avif"
+				alt="Placeholder video preview for fictional Twitch stream"
 				width="1280"
 				height="720"
 				loading="lazy"
-			/><span v-if="!finished" class="live-badge">LIVE</span
-			><span class="preview-caption">{{ demoStream.game }} / {{ props.streamer }}</span>
+			/>
 		</div>
 		<span class="mock-button"
 			>{{ finished ? 'Visit channel' : 'Watch stream' }}
 			<IconExternalLink :size="20" aria-hidden="true"
 		/></span>
-		<p class="card-disclaimer">Streamkist · Peak viewers observed while tracking</p>
+		<p class="card-disclaimer">Streamkist</p>
 	</article>
 </template>

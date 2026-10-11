@@ -4,7 +4,7 @@ import { setupDuration } from '~~/shared/command-typing'
 import { canAdvance, nextStage } from '~~/shared/playback'
 
 export function useDemoPlayback(element: Ref<HTMLElement | null>) {
-	// Render a complete live example before hydration and when JavaScript is disabled.
+	// Keep a complete server-rendered example for visitors without JavaScript.
 	const stage = shallowRef(2)
 	const paused = shallowRef(false)
 	const visible = shallowRef(false)
@@ -13,7 +13,6 @@ export function useDemoPlayback(element: Ref<HTMLElement | null>) {
 	const ready = shallowRef(false)
 	const elapsed = shallowRef(0)
 	const setupElapsed = computed(() => (reducedMotion.value ? setupDuration : elapsed.value))
-	let started = false
 	let timer: ReturnType<typeof setTimeout> | undefined
 	let observer: IntersectionObserver | undefined
 	let media: MediaQueryList | undefined
@@ -78,15 +77,12 @@ export function useDemoPlayback(element: Ref<HTMLElement | null>) {
 		media = window.matchMedia('(prefers-reduced-motion: reduce)')
 		motion()
 		visibility()
+		if (!reducedMotion.value) stage.value = 0
 		media.addEventListener('change', motion)
 		document.addEventListener('visibilitychange', visibility)
 		observer = new IntersectionObserver(
 			([entry]) => {
 				visible.value = entry?.isIntersecting ?? false
-				if (visible.value && !started) {
-					started = true
-					if (!reducedMotion.value) stage.value = 0
-				}
 			},
 			{ threshold: 0.25 },
 		)

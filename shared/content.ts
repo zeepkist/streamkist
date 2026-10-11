@@ -29,32 +29,31 @@ export const commands = [
 
 export const features = [
 	{
-		title: 'Twitch category watches',
+		title: 'Watch Twitch categories',
 		description:
-			'Watch a Twitch category, not a list of names. Bring streams for your favourite game into one Discord channel.',
+			'Watch a Twitch category, not a list of streamers. Bring streams for your favourite game into one Discord channel.',
 		icon: 'category',
 	},
 	{
-		title: 'Live stream cards',
+		title: 'Stream cards',
 		description:
-			'Large previews, current viewers, and observed peak viewers. Cards update as streams change, without filling your channel with repeat posts.',
+			'Current and peak viewers, updated in near real-time. Cards refresh when streams change.',
 		icon: 'card',
 	},
 	{
-		title: 'Finished stream summaries',
+		title: 'Stream history',
 		description:
-			'Finished cards keep time live and observed peak viewers, with a link back to the Twitch channel.',
+			'Keep stream details, time live, and observed peak viewers in your channel after streams end.',
 		icon: 'history',
 	},
 ] as const
 
 export const planFeatures = [
-	'Twitch stream notifications',
-	'Large stream previews',
-	'Current viewer counts',
-	'Observed peak viewers',
-	'Updated stream cards',
-	'Finished stream summaries',
+	'Twitch notifications',
+	'Stream previews',
+	'Current & peak viewers',
+	'Updating stream cards',
+	'Stream history',
 	'Watch management',
 ] as const
 export const plans = [
@@ -78,7 +77,13 @@ export const plans = [
 	},
 ] as const
 
-export const demoStages = ['Set up', 'Connected', 'Live', 'Updated', 'Finished'] as const
+export const demoStages = [
+	'Set up',
+	'Configured',
+	'New Stream',
+	'Updated Stream',
+	'Stream Finished',
+] as const
 export const demoMembers = [
 	{ name: 'Emily', color: '#e4a8bd' },
 	{ name: 'Charlotte', color: '#d8b6ed' },

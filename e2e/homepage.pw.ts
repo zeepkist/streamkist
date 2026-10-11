@@ -37,27 +37,45 @@ test('homepage hydrates, loads DINish, and keeps purchases disabled', async ({ p
 	expect(errors).toEqual([])
 })
 
+test('demo hides messages before hydration and starts with an empty channel', async ({ page }) => {
+	// Keep CSS and SSR markup available while the application scripts are blocked.
+	await page.route('**/_nuxt/*.js', (route) => route.abort())
+	await page.goto('/')
+	await page.locator('.discord-window').scrollIntoViewIfNeeded()
+	await expect(page.locator('.user-message')).toBeHidden()
+	await expect(page.locator('.bot-message')).toBeHidden()
+	await expect(page.locator('.stream-card')).toBeHidden()
+	await expect(page.getByRole('button', { name: 'Replay' })).toHaveCount(0)
+
+	await page.unroute('**/_nuxt/*.js')
+	await page.goto('/')
+	await expect(page.getByRole('button', { name: 'Set up' })).toHaveAttribute('aria-pressed', 'true')
+	await expect(page.locator('.user-message')).toBeHidden()
+	await expect(page.locator('.bot-message')).toBeHidden()
+	await page.locator('.discord-window').scrollIntoViewIfNeeded()
+	await expect(page.locator('.typed-command')).toBeVisible()
+	await expect(page.locator('.user-message')).toBeHidden()
+	await expect(page.locator('.bot-message')).toBeHidden()
+	await expect(page.getByRole('heading', { name: 'Channel added' })).toBeVisible({
+		timeout: setupDuration + 2000,
+	})
+})
+
 test('automatic lifecycle, pause, resume, manual selection, and replay', async ({ page }) => {
 	test.setTimeout(45000)
 	await page.goto('/')
 	await page.locator('.discord-window').scrollIntoViewIfNeeded()
 	await page.getByRole('button', { name: 'Replay' }).click()
-	await expect(page.getByRole('button', { name: '01 Set up' })).toHaveAttribute(
-		'aria-pressed',
-		'true',
-	)
+	await expect(page.getByRole('button', { name: 'Set up' })).toHaveAttribute('aria-pressed', 'true')
 	await page.getByRole('button', { name: 'Pause', exact: true }).click()
 	await page.waitForTimeout(4300)
-	await expect(page.getByRole('button', { name: '01 Set up' })).toHaveAttribute(
-		'aria-pressed',
-		'true',
-	)
+	await expect(page.getByRole('button', { name: 'Set up' })).toHaveAttribute('aria-pressed', 'true')
 	await page.getByRole('button', { name: 'Resume', exact: true }).click()
 	await expect(page.getByRole('heading', { name: 'Channel added' })).toBeVisible({
 		timeout: setupDuration + 2000,
 	})
 	await expect(page.locator('.stream-status')).toContainText('LIVE ON TWITCH', { timeout: 6000 })
-	await expect(page.getByRole('button', { name: '04 Updated' })).toHaveAttribute(
+	await expect(page.getByRole('button', { name: 'Updated Stream' })).toHaveAttribute(
 		'aria-pressed',
 		'true',
 		{ timeout: 6000 },
@@ -66,14 +84,11 @@ test('automatic lifecycle, pause, resume, manual selection, and replay', async (
 	await expect(page.locator('.stream-status')).toContainText('STREAM FINISHED', { timeout: 6000 })
 	await expect(page.locator('.mock-button')).toContainText('Visit channel')
 	await expect(page.locator('.card-stats')).toContainText('Peak viewers 81')
-	await page.getByRole('button', { name: '03 Live', exact: true }).click()
+	await page.getByRole('button', { name: 'New Stream', exact: true }).click()
 	await expect(page.locator('.mock-button')).toContainText('Watch stream')
 	await expect(page.getByRole('button', { name: 'Resume' })).toBeVisible()
 	await page.getByRole('button', { name: 'Replay' }).click()
-	await expect(page.getByRole('button', { name: '01 Set up' })).toHaveAttribute(
-		'aria-pressed',
-		'true',
-	)
+	await expect(page.getByRole('button', { name: 'Set up' })).toHaveAttribute('aria-pressed', 'true')
 })
 
 test('offscreen and hidden tabs pause playback', async ({ page }) => {
@@ -84,20 +99,14 @@ test('offscreen and hidden tabs pause playback', async ({ page }) => {
 		window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'instant' }),
 	)
 	await page.waitForTimeout(4300)
-	await expect(page.getByRole('button', { name: '01 Set up' })).toHaveAttribute(
-		'aria-pressed',
-		'true',
-	)
+	await expect(page.getByRole('button', { name: 'Set up' })).toHaveAttribute('aria-pressed', 'true')
 	await page.locator('.discord-window').scrollIntoViewIfNeeded()
 	await page.evaluate(() => {
 		Object.defineProperty(document, 'hidden', { configurable: true, value: true })
 		document.dispatchEvent(new Event('visibilitychange'))
 	})
 	await page.waitForTimeout(4300)
-	await expect(page.getByRole('button', { name: '01 Set up' })).toHaveAttribute(
-		'aria-pressed',
-		'true',
-	)
+	await expect(page.getByRole('button', { name: 'Set up' })).toHaveAttribute('aria-pressed', 'true')
 	await page.evaluate(() => {
 		Object.defineProperty(document, 'hidden', { configurable: true, value: false })
 		document.dispatchEvent(new Event('visibilitychange'))
@@ -169,12 +178,12 @@ test('reduced motion keeps manual controls and native scrolling', async ({ page 
 	await page.goto('/')
 	await page.locator('.discord-window').scrollIntoViewIfNeeded()
 	await page.waitForTimeout(4300)
-	await expect(page.getByRole('button', { name: '03 Live' })).toHaveAttribute(
+	await expect(page.getByRole('button', { name: 'New Stream' })).toHaveAttribute(
 		'aria-pressed',
 		'true',
 	)
 	await expect(page.getByRole('button', { name: 'Pause', exact: true })).toHaveCount(0)
-	await page.getByRole('button', { name: '05 Finished' }).click()
+	await page.getByRole('button', { name: 'Stream Finished' }).click()
 	await expect(page.locator('.stream-status')).toContainText('STREAM FINISHED')
 	expect(await page.evaluate(() => getComputedStyle(document.documentElement).scrollBehavior)).toBe(
 		'auto',
@@ -229,6 +238,7 @@ test('homepage remains useful without JavaScript', async ({ browser }) => {
 	const page = await context.newPage()
 	await page.goto('http://127.0.0.1:4173/')
 	await expect(page.getByRole('heading', { level: 1 })).toContainText('Your games.')
+	await expect(page.locator('.stream-card')).toBeVisible()
 	await expect(page.locator('.stream-card')).toContainText('LIVE ON TWITCH')
 	await expect(page.locator('#commands')).toContainText('/add-stream-channel')
 	await expect(page.locator('#pricing')).toContainText('£4')

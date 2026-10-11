@@ -2,7 +2,7 @@ import { strict as assert } from 'node:assert'
 import { readFile } from 'node:fs/promises'
 import { inviteUrl } from '../shared/content'
 
-const base = process.argv[2] ?? 'http://127.0.0.1:3000'
+const base = process.argv[2] ?? 'http://127.0.0.1:5000'
 for (let attempt = 0; attempt < 20; attempt++) {
 	try {
 		if ((await fetch(base)).ok) break
