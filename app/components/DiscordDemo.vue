@@ -103,7 +103,7 @@ onMounted(() => {
 										Now tracking <strong>Zeepkist</strong> Twitch streams in
 										<strong>#streams</strong>
 									</p>
-									<span class="micro muted">Only you can see this · Streamkist</span>
+									<span class="micro muted">Only you can see this</span>
 								</div>
 								<StreamCard
 									v-else

@@ -87,7 +87,7 @@ test('automatic lifecycle, pause, resume, manual selection, and replay', async (
 	const thumbnail = await page.locator('.stream-preview').boundingBox()
 	expect(thumbnail?.width).toBe(80)
 	expect(thumbnail?.height).toBe(80)
-	await expect(page.locator('.card-disclaimer')).toHaveText('Streamkist')
+	await expect(page.locator('.card-disclaimer')).toHaveCount(0)
 	await expect(page.locator('.stream-status')).toContainText('Streamed Zeepkist on Twitch', {
 		timeout: 6000,
 	})
@@ -199,7 +199,7 @@ test('compact live cards and finished cards fit mobile and desktop', async ({ pa
 		await page.getByRole('button', { name: 'Stream Finished', exact: true }).click()
 		await expect(page.locator('.stream-status')).toHaveText('Streamed Zeepkist on Twitch')
 		await expect(page.locator('.stream-preview')).toHaveCount(0)
-		await expect(page.locator('.card-disclaimer')).toHaveText('Streamkist')
+		await expect(page.locator('.card-disclaimer')).toHaveCount(0)
 		expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
 		await page.screenshot({ path: `.cache/finished-card-${width}.png` })
 	}

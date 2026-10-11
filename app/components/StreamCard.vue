@@ -40,6 +40,5 @@ const peak = computed(() => (props.stage >= 3 ? demoStream.peak : demoStream.ini
 			>{{ finished ? 'Visit channel' : 'Watch stream' }}
 			<IconExternalLink :size="20" aria-hidden="true"
 		/></span>
-		<p class="card-disclaimer">Streamkist</p>
 	</article>
 </template>
