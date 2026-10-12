@@ -9,6 +9,7 @@ useScrollReveal()
 		<main id="main" tabindex="-1">
 			<HeroSection />
 			<DiscordDemo />
+			<StatsSection />
 			<FeaturesSection />
 			<CommandsSection />
 			<PricingSection />

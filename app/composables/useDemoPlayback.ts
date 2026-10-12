@@ -80,13 +80,17 @@ export function useDemoPlayback(element: Ref<HTMLElement | null>) {
 		if (!reducedMotion.value) stage.value = 0
 		media.addEventListener('change', motion)
 		document.addEventListener('visibilitychange', visibility)
-		observer = new IntersectionObserver(
-			([entry]) => {
-				visible.value = entry?.isIntersecting ?? false
-			},
-			{ threshold: 0.25 },
-		)
-		if (element.value) observer.observe(element.value)
+		if ('IntersectionObserver' in window) {
+			observer = new IntersectionObserver(
+				([entry]) => {
+					visible.value = entry?.isIntersecting ?? false
+				},
+				{ threshold: 0.25 },
+			)
+			if (element.value) observer.observe(element.value)
+		} else {
+			visible.value = true
+		}
 		ready.value = true
 	})
 	onUnmounted(() => {

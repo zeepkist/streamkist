@@ -15,6 +15,13 @@ for (const command of commands)
 assert.equal((html.match(/disabled/g) ?? []).length >= 2, true, 'Paid plans must be disabled')
 assert(!html.includes('/_ipx/'), 'Runtime image processing is forbidden')
 assert(!html.includes('Internal Server Error'), 'Error page exported')
+assert(
+	html.indexOf('id="demo"') < html.indexOf('id="stats"') &&
+		html.indexOf('id="stats"') < html.indexOf('id="features"'),
+	'Stats must appear between demo and features',
+)
+for (const label of ['Streams', 'Streamers', 'Categories', 'Discord Servers'])
+	assert(html.includes(label), `Missing stats label: ${label}`)
 const styles = [...html.matchAll(/<link[^>]*rel="stylesheet"[^>]*>/g)]
 	.map((match) => match[0])
 	.join('')

@@ -5,6 +5,7 @@ export default defineNuxtConfig({
 	css: ['~/assets/css/main.css'],
 	devtools: { enabled: false },
 	devServer: { port: 5000 },
+	runtimeConfig: { public: { apiBase: 'https://backend.zeepki.st' } },
 	typescript: { strict: true, tsConfig: { compilerOptions: { noUncheckedIndexedAccess: true } } },
 	experimental: { entryImportMap: false },
 	nitro: {

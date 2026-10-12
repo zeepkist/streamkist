@@ -2,6 +2,12 @@ import { expect, test } from '@playwright/test'
 import { categorySuggestions, setupDuration } from '../shared/command-typing'
 import { inviteUrl } from '../shared/content'
 
+test.beforeEach(async ({ page }) => {
+	await page.route('**/streamkist/stats', (route) =>
+		route.fulfill({ json: { streams: 1250000, streamers: 4321, categories: 25, guilds: 42 } }),
+	)
+})
+
 test('homepage hydrates, loads DINish, and keeps purchases disabled', async ({ page }) => {
 	const errors: string[] = []
 	page.on('pageerror', (error) => errors.push(error.message))
