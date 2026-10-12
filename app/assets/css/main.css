@@ -953,6 +953,10 @@ button:focus-visible {
 	display: flex;
 	gap: 11px;
 }
+.plan-features strong {
+	color: var(--foreground);
+	font-weight: 650;
+}
 .pricing-note {
 	text-align: center;
 	margin-top: 25px;

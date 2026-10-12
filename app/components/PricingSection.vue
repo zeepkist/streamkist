@@ -30,11 +30,16 @@ import { inviteUrl, planFeatures, plans } from '~~/shared/content'
 						>{{ plan.games }} Twitch {{ plan.games === 1 ? 'category' : 'categories' }}</strong
 					>
 				</p>
-				<p class="micro muted">{{ plan.concurrentStreams }} concurrent streams per server</p>
 				<a v-if="plan.available" :href="inviteUrl" class="button button-outline button-discord"
 					><IconBrandDiscord :size="20" aria-hidden="true" />Add to Discord</a
 				><button v-else type="button" disabled class="button button-disabled">Coming Soon</button>
 				<ul class="plan-features">
+					<li>
+						<IconCheck class="purple" :size="18" aria-hidden="true" />
+						<span
+							><strong>{{ plan.concurrentStreams }}</strong> concurrent streams per server</span
+						>
+					</li>
 					<li v-for="feature in planFeatures" :key="feature">
 						<IconCheck class="purple" :size="18" aria-hidden="true" />{{ feature }}
 					</li>
