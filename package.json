@@ -23,7 +23,7 @@
 		"@nuxt/ui": "4.11.3",
 		"@tabler/icons-vue": "3.49.0",
 		"nuxt": "4.5.2",
-		"vue": "3.5.43"
+		"vue": "3.5.44"
 	},
 	"overrides": {
 		"nitropack": "2.13.4"
