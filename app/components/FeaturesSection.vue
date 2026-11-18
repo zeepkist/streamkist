@@ -15,7 +15,7 @@ const featureIcons = { category: IconCategory, card: IconLayoutCards, history: I
 		<div class="feature-grid">
 			<article v-for="feature in features" :key="feature.icon" class="feature" data-reveal>
 				<div class="feature-top">
-					<component :is="featureIcons[feature.icon]" :size="38" :stroke="1.5" aria-hidden="true" />
+					<component :is="featureIcons[feature.icon]" :size="38" stroke="1.5" aria-hidden="true" />
 				</div>
 				<h3>{{ feature.title }}</h3>
 				<p class="muted">{{ feature.description }}</p>

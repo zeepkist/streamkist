@@ -1,4 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720">
+	<title>Illustrated stream preview</title>
 	<defs>
 		<linearGradient id="sky" x2="0" y2="1">
 			<stop stop-color="#6664b9" />

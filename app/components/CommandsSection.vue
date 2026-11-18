@@ -16,8 +16,9 @@ import { commands } from '~~/shared/content'
 					<p class="muted">{{ command.description }}</p>
 				</div>
 				<div class="command-example">
-					<code>{{ command.example }}</code
-					><span class="micro muted">{{ command.permission }}</span>
+					<code>{{ command.example }}</code><span class="micro muted">{{
+						command.permission
+					}}</span>
 				</div>
 			</article>
 		</div>

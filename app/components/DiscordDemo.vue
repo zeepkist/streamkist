@@ -57,8 +57,9 @@ onMounted(() => {
 				</div>
 				<div class="channel muted"><IconHash :size="20" aria-hidden="true" /> race-night</div>
 				<div class="sidebar-bottom">
-					<span class="member-avatar" :style="avatarStyle" aria-hidden="true">{{ initial }}</span
-					><span
+					<span class="member-avatar" :style="avatarStyle" aria-hidden="true">{{
+						initial
+					}}</span><span
 						><span class="member-name">{{ member.name }}</span
 						><span class="micro muted">Online</span></span
 					>

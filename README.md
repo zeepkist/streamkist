@@ -6,7 +6,7 @@ Twitch stream notifications for game communities on Discord.
 
 ## Development
 
-Requires **Bun 1.4.2**. Dependencies follow a three-day minimum release age.
+Requires **Bun 1.4.4**. Dependencies follow a three-day minimum release age.
 
 ```sh
 bun install --frozen-lockfile

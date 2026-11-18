@@ -8,7 +8,6 @@
 	font-weight: 100 900;
 	font-display: swap;
 }
-/* biome-ignore lint/suspicious/noUnknownAtRules: Tailwind theme directive. */
 @theme static {
 	--font-sans: DINish, "Arial", sans-serif;
 }
